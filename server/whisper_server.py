@@ -32,7 +32,13 @@ async def transcribe(audio: UploadFile = File(...)):
         with open(fd, "wb") as tmp:
             tmp.write(content)
 
-        segments, info = model.transcribe(tmp_path, beam_size=5)
+        segments, info = model.transcribe(
+            tmp_path,
+            beam_size=5,
+            language="en",
+            condition_on_previous_text=False,
+            no_speech_threshold=0.6,
+        )
         text = " ".join(segment.text.strip() for segment in segments)
 
         return {
