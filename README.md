@@ -10,7 +10,7 @@ Windows mic → Whisper (GPU) → Ollama llama3.1 → Obsidian markdown
 
 | Component | Runs on | Purpose |
 |-----------|---------|---------|
-| `server/whisper_server.py` | Ollama machine (192.168.10.163) | FastAPI server, transcribes audio with faster-whisper on GPU |
+| `server/whisper_server.py` | Machine with GPU + Ollama | FastAPI server, transcribes audio with faster-whisper on GPU |
 | `client/voice_notes.py` | Windows workstation | Records mic, orchestrates pipeline, writes notes to Obsidian |
 
 ## Setup
@@ -38,7 +38,7 @@ pip install -r client/requirements.txt
 python client/voice_notes.py
 ```
 
-Notes are saved to: `C:\Users\SyncthingServiceAcct\mine\mine\Wiser\Voice Notes\`
+Notes are saved to the path configured in `OBSIDIAN_VAULT` (defaults to `~/Documents/Voice Notes`).
 
 ## Usage
 
@@ -53,13 +53,16 @@ Notes are saved to: `C:\Users\SyncthingServiceAcct\mine\mine\Wiser\Voice Notes\`
 
 Edit the constants at the top of `client/voice_notes.py`:
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `WHISPER_URL` | `http://192.168.10.163:8090/transcribe` | Whisper server endpoint |
-| `OLLAMA_URL` | `http://192.168.10.163:11434/api/generate` | Ollama API endpoint |
+All settings can be overridden via environment variables or by editing the constants in `client/voice_notes.py`:
+
+| Environment Variable | Default | Description |
+|---------------------|---------|-------------|
+| `WHISPER_URL` | `http://localhost:8090/transcribe` | Whisper server endpoint |
+| `OLLAMA_URL` | `http://localhost:11434/api/generate` | Ollama API endpoint |
 | `OLLAMA_MODEL` | `llama3.1:latest` | Model for note formatting |
-| `OBSIDIAN_VAULT` | `C:\...\Wiser\Voice Notes` | Output directory |
-| `SAMPLE_RATE` | `16000` | Audio sample rate (16kHz optimal for Whisper) |
+| `OBSIDIAN_VAULT` | `~/Documents/Voice Notes` | Output directory |
+
+Sample rate (16kHz, optimal for Whisper) is set in `voice_notes.py`.
 
 ## Running the Server as a Service (optional)
 

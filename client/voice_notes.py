@@ -2,6 +2,7 @@
 
 import io
 import json
+import os
 import wave
 import sys
 from datetime import datetime
@@ -12,10 +13,10 @@ import sounddevice as sd
 import numpy as np
 
 # --- Configuration ---
-WHISPER_URL = "http://192.168.10.163:8090/transcribe"
-OLLAMA_URL = "http://192.168.10.163:11434/api/generate"
-OLLAMA_MODEL = "llama3.1:latest"
-OBSIDIAN_VAULT = Path(r"C:\Users\SyncthingServiceAcct\mine\mine\Wiser\Voice Notes")
+WHISPER_URL = os.environ.get("WHISPER_URL", "http://localhost:8090/transcribe")
+OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/api/generate")
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama3.1:latest")
+OBSIDIAN_VAULT = Path(os.environ.get("OBSIDIAN_VAULT", os.path.expanduser("~/Documents/Voice Notes")))
 SAMPLE_RATE = 16000  # 16kHz is ideal for Whisper
 
 MEETING_PROMPT = """You are a meeting notes formatter. Given a raw voice transcript, produce clean structured meeting notes in markdown. Include these sections only if relevant content exists:

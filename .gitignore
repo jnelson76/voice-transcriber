@@ -3,4 +3,5 @@ __pycache__/
 *.wav
 *.mp3
 .env
+start.bat
 venv/

@@ -5,7 +5,7 @@ import tempfile
 from pathlib import Path
 
 # Add all NVIDIA library paths to PATH before importing CUDA-dependent packages
-nvidia_base = Path(r"C:\Python314\Lib\site-packages\nvidia")
+nvidia_base = Path(os.path.join(os.path.dirname(os.__file__), "..", "Lib", "site-packages", "nvidia"))
 if nvidia_base.exists():
     for bin_dir in nvidia_base.glob("*/bin"):
         os.environ["PATH"] = str(bin_dir) + os.pathsep + os.environ.get("PATH", "")
